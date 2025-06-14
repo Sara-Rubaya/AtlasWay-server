@@ -5,6 +5,10 @@ const app = express();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const port = process.env.PORT || 3000;
 
+//middleware
+app.use(cors());
+app.use(express.json());
+
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(process.env.MONGODB_URI, {
   serverApi: {
@@ -23,6 +27,14 @@ async function run() {
         console.log(allPackages)
         res.send(allPackages)
     })
+
+    //save a package data in database
+    app.post('/add-package', async(req, res) =>{
+        const packageData = req.body
+        const result = await packageCollection.insertOne(packageData)
+        console.log(result)
+        res.status(201).send({...result,message: 'data paisi'})
+    })
    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -37,9 +49,7 @@ run().catch(console.dir);
 
 
 
-//middleware
-app.use(cors());
-app.use(express.json());
+
 
 app.get('/', (req, res) =>{
     res.send('AtlasWay is cooking')
