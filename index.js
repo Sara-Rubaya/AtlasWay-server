@@ -21,6 +21,7 @@ async function run() {
   try {
     const database =client.db('atlasway-user')
     const packageCollection = database.collection('packages')
+    const bookingCollection = database.collection('bookings')
 
     app.get('/packages', async(req, res)=>{
         const allPackages = await packageCollection.find().toArray()
@@ -53,6 +54,21 @@ async function run() {
         console.log(packages)
         res.send(packages)
     })
+
+   // Handle order
+app.post('/bookings', async (req, res) => {
+  try {
+    const bookingData = req.body; // ✅ Corrected line
+    console.log('Received Booking:', bookingData);
+
+    const result = await bookingCollection.insertOne(bookingData);
+
+    res.status(201).send({ success: true, message: 'Booking successful!', ...result });
+  } catch (error) {
+    console.error('Booking Error:', error);
+    res.status(500).send({ success: false, message: 'Internal Server Error' });
+  }
+});
 
 
    
