@@ -2,7 +2,7 @@ const express = require('express')
 require('dotenv').config()
 const cors = require('cors')
 const app = express();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 3000;
 
 //middleware
@@ -35,6 +35,26 @@ async function run() {
         console.log(result)
         res.status(201).send({...result,message: 'data paisi'})
     })
+     
+    //get single package by id
+     app.get('/package/:id', async(req, res)=>{
+        const id = req.params.id
+        const filter = {_id : new ObjectId(id)}
+        const package = await packageCollection.findOne(filter)
+        console.log(package)
+        res.send(package)
+    })
+
+     //get single package by id
+     app.get('/my-packages/:email', async(req, res)=>{
+        const email = req.params.email
+        const filter = { email}
+        const packages = await packageCollection.find(filter).toArray()
+        console.log(packages)
+        res.send(packages)
+    })
+
+
    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
