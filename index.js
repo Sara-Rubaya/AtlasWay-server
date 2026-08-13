@@ -149,14 +149,7 @@ app.put('/packages/:id', async (req, res) => {
   );
   res.send({ modifiedCount: rowCount });
 });
-// Confirm a booking (status change)
-app.patch('/bookings/:id', async (req, res) => {
-  const { rowCount } = await pool.query(
-    `UPDATE bookings SET data = jsonb_set(coalesce(data, '{}'::jsonb), '{status}', '"completed"') WHERE id = $1`,
-    [req.params.id]
-  );
-  res.send({ success: rowCount > 0, modifiedCount: rowCount });
-});
+
 
 // Delete a package
 app.delete('/packages/:id', async (req, res) => {
