@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS packages (
+  id SERIAL PRIMARY KEY,
+  tour_name TEXT,
+  name TEXT,
+  price NUMERIC,
+  contact_no TEXT,
+  departure_date TEXT,
+  departure_location TEXT,
+  email TEXT,
+  data JSONB, -- baki extra fields ekhane rakhbo, jate frontend break na kore
+  created_at TIMESTAMP DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS bookings (
+  id SERIAL PRIMARY KEY,
+  tour_id INTEGER REFERENCES packages(id),
+  buyer_email TEXT,
+  data JSONB,
+  created_at TIMESTAMP DEFAULT now()
+);
