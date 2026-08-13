@@ -13,9 +13,13 @@ admin.initializeApp({ credential: admin.credential.cert(JSON.parse(decoded)) });
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://atlas-way-client.vercel.app'],
+  origin: [
+    'http://localhost:5173',
+    'https://atlas-way-client.vercel.app'
+  ],
   credentials: true
 }));
+
 app.use(express.json());
 
 // NeonDB connection (connection string .env e DATABASE_URL hisebe rakho)
