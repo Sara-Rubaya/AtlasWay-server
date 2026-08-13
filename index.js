@@ -13,7 +13,7 @@ admin.initializeApp({ credential: admin.credential.cert(JSON.parse(decoded)) });
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://atlas-way-server.vercel.app'],
+  origin: ['http://localhost:5173', 'https://atlas-way-client.vercel.app/'],
   credentials: true
 }));
 app.use(express.json());
